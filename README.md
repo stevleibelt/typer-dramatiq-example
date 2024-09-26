@@ -2,6 +2,9 @@
 
 Example installation using docker, typer and dramatiq
 
+This is an example where the [first loaded](app/context/a/workers.py) file containing dramatiq actors is able to process the enqueued messages.
+All other actors are ignored within the worker process.
+
 ## Setup Steps
 
 * Checkout source code
