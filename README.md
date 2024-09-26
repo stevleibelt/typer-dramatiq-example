@@ -32,3 +32,11 @@ Example installation using docker, typer and dramatiq
 1) "4847ecfe-7dfd-4781-bdbd-aadc963dfc16"
 ```
   * A message was enqueued but it is not processed by dramatiq
+
+## Development Notes
+
+```bash
+uv init .
+uv venv --python 3.11
+uv pip sync requirements.txt
+```

@@ -1,0 +1,12 @@
+[project]
+name = "typer-dramatiq-example"
+version = "0.1.0"
+description = "Example installation using docker, typer and dramatiq"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "dramatiq[gevent, redis, watch] >=1.17.0,<1.18.0",
+  "fastapi[standard] >=0.114.0,<=0.115.0",
+  "valkey >=6.0.0,<6.1.0",
+  "watchdog >=5.0.2,<5.1.0",
+]
