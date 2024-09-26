@@ -2,6 +2,7 @@ import os
 import subprocess
 import typer
 
+from shared.actor_broker import ContextModuleStrEnum, actor_broker
 from shared.utility import project_app_source_base_path
 
 app = typer.Typer()
@@ -11,25 +12,24 @@ app = typer.Typer()
 def app_send_a_a(
     message: str = "The message is love"
 ) -> None:
-    from context.a.workers import a_a
-
-    a_a.send(message=message)
+    actor_broker.send(context_module=ContextModuleStrEnum.a, actor_function_name='a_a', data={'message': message})
 
 
 @app.command(name="send-a-b")
 def app_send_a_b(
     sleep_in_seconds: int = 2
 ) -> None:
-    from context.a.workers import a_b
-
-    a_b.send(sleep_in_seconds=sleep_in_seconds)
+    actor_broker.send(context_module=ContextModuleStrEnum.a, actor_function_name='a_b', data={'sleep_in_seconds': sleep_in_seconds})
 
 
 @app.command(name="send-b-a")
 def app_send_b_a() -> None:
-    from context.b.workers import b_a
+    actor_broker.send(context_module=ContextModuleStrEnum.b, actor_function_name='b_a', data=None)
 
-    b_a.send()
+
+@app.command(name="send-b-b", help="This will create an AttributeError")
+def app_send_b_b() -> None:
+    actor_broker.send(context_module=ContextModuleStrEnum.b, actor_function_name='b_b', data=None)
 
 
 @app.command(name="start-workers")
@@ -38,7 +38,7 @@ def app_start_workers() -> None:
         "env",
         f"PYTHONPATH={project_app_source_base_path}",
         "dramatiq-gevent",
-        "shared.workers",
+        "shared.actor_broker",
         "-p 4",
         "-t 8",
         "--watch",
