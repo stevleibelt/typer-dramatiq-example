@@ -1,0 +1,73 @@
+services:
+
+  cli-app-base: &cli-app-base
+    build:
+      context: .
+      dockerfile: app_cli.Docker
+      args:
+        REQUIREMENTS_FILE_NAME_TO_USE: "requirements.txt"
+    depends_on:
+      - valkey-dev
+    environment:
+      ENV: production
+      TZ: "Europe/Berlin"
+    restart: always
+    profiles:
+      - base-for-extension
+    volumes:
+      - .:/app
+      - /etc/localtime:/etc/localtime:ro
+    user: "${UID?}:${GID?}"
+
+  valkey-dev:
+    container_name: valkey-dev
+    environment:
+      TZ: "Europe/Berlin"
+    image: valkey/valkey:8.0-alpine
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    user: "${UID?}:${GID?}"
+
+  cli-dev:
+    <<: *cli-app-base
+    build:
+      context: .
+      dockerfile: app_cli.Docker
+      args:
+        REQUIREMENTS_FILE_NAME_TO_USE: "requirements.txt"
+    container_name: cli-dev
+    command:
+      - "sleep"
+      - "infinity"
+    environment:
+      ENV: dev
+    profiles:
+      - dev
+    volumes:
+      - ./app:/app
+      - .env:/app/.env
+      - /etc/localtime:/etc/localtime:ro
+
+  worker-dev:
+    <<: *cli-app-base
+    build:
+      context: .
+      dockerfile: app_cli.Docker
+      args:
+        REQUIREMENTS_FILE_NAME_TO_USE: "requirements.txt"
+    container_name: worker-dev
+    command:
+      - "python"
+      - "/app/cli.py"
+      - "start-workers"
+    environment:
+      ENV: dev
+    profiles:
+      - dev
+    volumes:
+      - ./app:/app
+      - .env:/app/.env
+      - /etc/localtime:/etc/localtime:ro

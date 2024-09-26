@@ -1,0 +1,19 @@
+FROM python:3.11-bookworm
+
+ARG REQUIREMENTS_FILE_NAME_TO_USE=requirements.txt
+
+COPY requirements.txt /tmp/
+
+# default packages
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    ca-certificates \
+    curl \
+    gnupg2 \
+    postgresql-client-15 \
+    tzdata \
+    && rm -rf /var/lib/apt/lists/*
+
+# python packages
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r /tmp/${REQUIREMENTS_FILE_NAME_TO_USE}
