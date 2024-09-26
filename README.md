@@ -2,6 +2,9 @@
 
 Example installation using docker, typer and dramatiq
 
+This is an example where all actors where loaded in [one workers](app/shared/workers.py) file.
+In this example, only the messages from the last loaded actors where processed inside the workers process.
+
 ## Setup Steps
 
 * Checkout source code
