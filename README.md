@@ -14,10 +14,11 @@ Example installation using docker, typer and dramatiq
 * cd into the project path
 * `docker compose exec cli-dev bash`
 * `python /app/cli.py send-a-a`
-  * This results in a log message like `worker-dev  | [2024-09-26 15:45:27: The message in a_a is: The message is love`
+  * This is not working, no message was produced
 * `python /app/cli.py send-a-b`
-  * This results in a log message like `worker-dev  | [2024-09-26 15:47:32: a_b sleeping has been finished`
+  * This is not working, no message was produced
 * `python /app/cli.py send-b-a`
+  * This results in a log message like `worker-dev  | [2024-09-26 21:29:36]: This is b_a speaking`
   * This is not working, no message was produced
 * `docker compose exec valkey-dev sh`
 * `valkey-cli`
@@ -25,13 +26,17 @@ Example installation using docker, typer and dramatiq
 * `KEYS *`
 ```bash
 127.0.0.1:6379[2]> KEYS *
-1) "dramatiq:b_a"
-2) "dramatiq:__heartbeats__"
-3) "dramatiq:b_a.msgs"
-127.0.0.1:6379[2]> LRANGE dramatiq:b_a 0 -1
-1) "4847ecfe-7dfd-4781-bdbd-aadc963dfc16"
+1) "dramatiq:__heartbeats__"
+2) "dramatiq:a_b_queue"
+3) "dramatiq:a_a_queue.msgs"
+4) "dramatiq:a_a_queue"
+5) "dramatiq:a_b_queue.msgs"
+127.0.0.1:6379[2]> LRANGE dramatiq:a_a_queue 0 -1
+1) "88240463-404a-41b8-810c-68558f443aca"
+127.0.0.1:6379[2]> LRANGE dramatiq:a_b_queue 0 -1
+1) "e4a284bf-a6ab-4539-a080-f67f1725ee91"
 ```
-  * A message was enqueued but it is not processed by dramatiq
+  * This messages where enqueued but it is not processed by dramatiq
 
 ## Development Notes
 
