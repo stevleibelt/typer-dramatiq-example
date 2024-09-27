@@ -7,14 +7,22 @@ I could not find any example project out there with more than one actor defined,
 This example project has multiple branches. Each branch shows an implementation with possible issues.
 
 * [one_workers_file_per_context](https://github.com/stevleibelt/typer-dramatiq-example/tree/one_workers_file_per_context)
-  * Each actor can be called to enqueue a message
-  * Only the messages from the actors defined in the first workers file where processed
+  * Upside: Each actor can be called to enqueue a message
+  * Downside: Only the messages from the actors defined in the first workers file where processed
 * [all_actors_in_one_workers_file](https://github.com/stevleibelt/typer-dramatiq-example/tree/all_actors_in_one_workers_file)
-  * Each actor can be called to enqueue a message
-  * Only the messages from the last imported actors where processed
+  * Upside: Each actor can be called to enqueue a message
+  * Downside: Only the messages from the last imported actors where processed
+* [all_actors_in_one_workers_file_working](https://github.com/stevleibelt/typer-dramatiq-example/tree/all_actors_in_one_workers_file_working)
+  * This is my current best approach
+  * Upside:
+    * Each actor can be called to enqueue a message
+    * All messages where processed
+    * You can call the actor directly in the code
+  * Downside: One worker file combines all actors (take care of good and uniq naming)
 * [one_broker](https://github.com/stevleibelt/typer-dramatiq-example/tree/one_broker)
-  * Each actor can be called to enqueue a message
-  * All messages where processed
+  * Upside:
+    * Each actor can be called to enqueue a message
+    * All messages where processed
   * Downside: Only one actor is defined
 
 ## Setup Steps
