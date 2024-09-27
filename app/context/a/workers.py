@@ -2,10 +2,7 @@ __all__ = ["a_a", "a_b"]
 
 from dramatiq import actor
 from time import sleep
-from shared.dramatiq import setup_dramatiq
 from shared.utility import get_current_datetime
-
-setup_dramatiq()
 
 @actor(queue_name="a_a_queue")
 def a_a(message: str) -> None:

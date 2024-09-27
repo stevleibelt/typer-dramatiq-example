@@ -2,6 +2,7 @@ import os
 import subprocess
 import typer
 
+from shared.dramatiq import setup_dramatiq
 from shared.utility import project_app_source_base_path
 
 app = typer.Typer()
@@ -11,6 +12,7 @@ app = typer.Typer()
 def app_send_a_a(
     message: str = "The message is love"
 ) -> None:
+    setup_dramatiq()
     from context.a.workers import a_a
 
     a_a.send(message=message)
@@ -20,6 +22,7 @@ def app_send_a_a(
 def app_send_a_b(
     sleep_in_seconds: int = 2
 ) -> None:
+    setup_dramatiq()
     from context.a.workers import a_b
 
     a_b.send(sleep_in_seconds=sleep_in_seconds)
@@ -27,6 +30,7 @@ def app_send_a_b(
 
 @app.command(name="send-b-a")
 def app_send_b_a() -> None:
+    setup_dramatiq()
     from context.b.workers import b_a
 
     b_a.send()
