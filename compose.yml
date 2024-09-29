@@ -28,6 +28,7 @@ services:
       - "6379:6379"
     restart: unless-stopped
     volumes:
+      - valkey_data:/data
       - /etc/localtime:/etc/localtime:ro
     user: "${UID?}:${GID?}"
 
@@ -71,3 +72,6 @@ services:
       - ./app:/app
       - .env:/app/.env
       - /etc/localtime:/etc/localtime:ro
+
+volumes:
+  valkey_data:
