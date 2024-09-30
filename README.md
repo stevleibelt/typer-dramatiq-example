@@ -2,7 +2,7 @@
 
 Example installation using docker, typer and dramatiq.
 
-I could not find any example project out there with more than one actor defined, so I had written this one.
+I could not find any example project out there with more than one actor defined, so I had written this one. Because of the nature of improving software, this repository showed a snapshot of dramatiq in the time of `2024-09-29` and is archived for the same reason.
 
 This example project has multiple branches. Each branch shows an implementation with possible issues.
 
